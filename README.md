@@ -16,7 +16,7 @@ Run `ls`in a fiber:
 Arguments
 ---------
 
-Use the chainable `arg` method:
+Arguments can be applied using the chainable `arg` method:
 
     Fiber(function() {
         FiberJob("echo").arg("hello","world").run();
@@ -29,4 +29,13 @@ If your arguments should be somewhat more complex:
         f.arg("hello");
         f.arg("world");
         f.run();
+    }).run();
+
+Show output
+-----------
+
+By default, the output of the command is stored in the object and can be retreived using the `getOutput` method. You can also send the output to standard out:
+
+    Fiber(function() {
+        FiberJob("echo").arg("hello","world").show().run();
     }).run();
