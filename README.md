@@ -6,7 +6,7 @@ Run external commands synchronously using Noje.js Fibers
 Simple usage
 ------------
 
-Run `ls`in a fiber:
+Run `ls` in a fiber:
 
     Fiber(function() {
         var files=FiberJob("ls").run().getOutput();
