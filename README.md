@@ -39,3 +39,17 @@ By default, the output of the command is stored in the object and can be retreiv
     Fiber(function() {
         FiberJob("echo").arg("hello","world").show().run();
     }).run();
+
+Return code
+-----------
+
+In addition to `getOutput` there is also `getReturnCode` to get the command's return code:
+
+    Fiber(function() {
+        var f=FiberJob("ls");
+        f.run();
+
+        var output=f.getOutput();
+        var code=f.getReturnCode();
+    }).run();
+
