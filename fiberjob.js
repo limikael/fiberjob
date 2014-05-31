@@ -26,10 +26,15 @@ function FiberJob(command) {
 FiberJob.prototype.run=function() {
 	this.fiber = Fiber.current;
 
-	this.cmd=FiberJob.resolveCmd(this.cmd);
-
 	if (!this.fiber)
 		throw new Error("Must be run in a fiber");
+
+	this.previousPath=process.cwd();
+
+	if (this.workingPath)
+		process.chdir(this.workingPath);
+
+	this.cmd=FiberJob.resolveCmd(this.cmd);
 
 	this.childProcess=child_process.spawn(this.cmd,this.cmdArgs);
 
@@ -44,6 +49,9 @@ FiberJob.prototype.run=function() {
 		if (this.returnCode!=this.expectedReturnCode) {
 			if (!this.showOutput)
 				console.log(this.output);
+
+			if (this.workingPath)
+				process.chdir(this.previousPath);
 
 			throw new Error("Expected "+this.getFullCommand()+" to return "+this.expectedReturnCode+" but got "+this.returnCode);
 		}
@@ -105,6 +113,10 @@ FiberJob.prototype.onChildProcessOutput=function(data) {
  */
 FiberJob.prototype.onChildProcessClose=function(res) {
 	this.returnCode=res;
+
+	if (this.workingPath)
+		process.chdir(this.previousPath);
+
 	this.fiber.run();
 }
 
@@ -155,7 +167,7 @@ FiberJob.resolveCmd=function(cmd) {
 	if (fs.existsSync(path.resolve(cmd)))
 		cmd=path.resolve(cmd);
 
-	if (fs.existsSync(cmd+".cmd"))
+	if (process.platform="win32" && fs.existsSync(cmd+".cmd"))
 		cmd=cmd+".cmd";
 
 	return cmd;
