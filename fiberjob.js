@@ -159,6 +159,17 @@ FiberJob.prototype.getOutput=function() {
 }
 
 /**
+ * Set working path for job.
+ * @method chdir
+ * @chainable
+ */
+FiberJob.prototype.chdir=function(value) {
+	this.workingPath=value;
+
+	return this;
+}
+
+/**
  * Resolve command path.
  * @method resolveCmd
  * @private
@@ -167,7 +178,7 @@ FiberJob.resolveCmd=function(cmd) {
 	if (fs.existsSync(path.resolve(cmd)))
 		cmd=path.resolve(cmd);
 
-	if (process.platform="win32" && fs.existsSync(cmd+".cmd"))
+	if (process.platform=="win32" && fs.existsSync(cmd+".cmd"))
 		cmd=cmd+".cmd";
 
 	return cmd;

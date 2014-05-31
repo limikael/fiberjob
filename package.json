@@ -1,6 +1,6 @@
 {
 	"name": "fiberjob",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"main": "fiberjob.js",
 	"description": "Run external commands synchronously using Noje.js Fibers",
 	"homepage": "https://github.com/limikael/fiberjob",
