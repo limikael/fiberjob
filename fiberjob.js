@@ -175,7 +175,7 @@ FiberJob.prototype.chdir=function(value) {
  * @private
  */
 FiberJob.resolveCmd=function(cmd) {
-	if (fs.existsSync(path.resolve(cmd)))
+	if (fs.existsSync(path.resolve(cmd)) && !fs.lstatSync(path.resolve(cmd)).isDirectory())
 		cmd=path.resolve(cmd);
 
 	if (process.platform=="win32" && fs.existsSync(cmd+".cmd"))
